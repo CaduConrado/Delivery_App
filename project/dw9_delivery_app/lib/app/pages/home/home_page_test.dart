@@ -3,6 +3,7 @@ import 'package:dw9_delivery_app/app/core/ui/widgets/delivery_appbar.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_controller.dart';
 import 'package:dw9_delivery_app/app/pages/home/home_state.dart';
 import 'package:dw9_delivery_app/app/pages/home/widgets/delivery_product_tile.dart';
+import 'package:dw9_delivery_app/app/pages/home/widgets/shopping_bag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,11 +47,18 @@ class _HomePageTestState extends BaseState<HomePageTest, HomeController> {
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
+                    final orders = state.shoppingBag
+                        .where((order) => order.product == product);
                     return DeliveryProductTile(
                       product: product,
+                      orderProduct: orders.isNotEmpty ? orders.first : null,
                     );
                   },
                 ),
+              ),
+              Visibility(
+                visible: state.shoppingBag.isNotEmpty,
+                child: ShoppingBagWidget(bag: state.shoppingBag),
               )
             ],
           );
