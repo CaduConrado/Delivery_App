@@ -16,8 +16,8 @@ class LoginController extends Cubit<LoginState> {
       emit(state.copyWith(status: LoginStatus.login));
       final authModel = await _authRepository.login(email, password);
       final sp = await SharedPreferences.getInstance();
-      sp.setString('acessToken', authModel.acessToken);
-      sp.setString('acessToken', authModel.refreshToken);
+      sp.setString('accessToken', authModel.accessToken);
+      sp.setString('refreshToken', authModel.refreshToken);
       emit(state.copyWith(status: LoginStatus.success));
     } on UnauthorizedException catch (e, s) {
       emit(state.copyWith(
